@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>我的链接管理器 (v16-最终版)</title>
+    <title>我的链接管理器 (v16-修正导入)</title>
     <meta charset="utf-8">
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; padding: 20px; background-color: #f8f9fa; line-height: 1.5; }
@@ -16,115 +16,18 @@
         .button-secondary { background-color: #6c757d; color: white; padding: 8px 12px; }
         .button-secondary:hover { background-color: #5a6268; }
 
-        /* --- (v15) 4列布局 --- */
-        #link-list-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 15px; 
-        }
-
-        /* --- (v15) 卡片内部布局 --- */
-        .link-item {
-            background-color: #ffffff;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; 
-            min-height: 130px; 
-        }
-        
-        /* (v15) 卡片顶部 */
-        .item-top {
-            display: flex;
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .item-top .name {
-            font-weight: bold;
-            font-size: 1.1em; 
-            color: #000;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-left: 1.5em;
-            cursor: pointer; 
-        }
-        .item-top .name:hover {
-            color: #007bff; 
-        }
-        
-        .button-copy {
-            background-color: #007bff;
-            color: white;
-            padding: 8px 14px;
-            font-size: 0.9em;
-            width: auto; 
-            text-align: center;
-            white-space: nowrap;
-            /* (!! v15 核心修改) 按钮宽度改回 80px */
-            min-width: 80px; 
-            margin-right: 1.5em; 
-        }
-
-        /* (v15) 卡片中部: 内容预览 */
-        .content-preview {
-            font-size: 0.85em;
-            color: #555;
-            background-color: #f4f4f4;
-            padding: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* 2 行 */
-            -webkit-box-orient: vertical;
-            word-break: break-all;
-            line-height: 1.5; 
-            height: 3em; /* 固定为2行文字的高度 */
-            margin-bottom: 10px;
-            margin-left: 1em;
-            margin-right: 1em;
-        }
-        
-        /* (v15) 卡片底部 */
-        .item-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 5px;
-            padding-left: 1em;
-            padding-right: 1em;
-        }
-        .info-tags {
-            display: flex;
-            gap: 4px; /* 标签间距 */
-            flex-wrap: wrap; /* 自动换行 */
-            width: 80%;
-        }
-        .button-tag {
-            background-color: #e9ecef;
-            color: #495057;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.75em; /* 最小字体 */
-            white-space: nowrap;
-            width: auto;
-        }
-        .button-tag:hover {
-             background-color: #d1d5db;
-        }
-        
-        .button-delete {
-            background-color: #dc3545;
-            color: white;
-            padding: 4px 8px; /* 最小按钮 */
-            font-size: 0.8em;
-            width: auto;
-        }
+        #link-list-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .link-item { background-color: #ffffff; border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; min-height: 130px; }
+        .item-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .item-top .name { font-weight: bold; font-size: 1.1em; color: #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 1.5em; cursor: pointer; }
+        .item-top .name:hover { color: #007bff; }
+        .button-copy { background-color: #007bff; color: white; padding: 8px 14px; font-size: 0.9em; width: auto; text-align: center; white-space: nowrap; min-width: 80px; margin-right: 1.5em; }
+        .content-preview { font-size: 0.85em; color: #555; background-color: #f4f4f4; padding: 8px; border-radius: 4px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-all; line-height: 1.5; height: 3em; margin-bottom: 10px; margin-left: 1em; margin-right: 1em; }
+        .item-bottom { display: flex; justify-content: space-between; align-items: center; gap: 5px; padding-left: 1em; padding-right: 1em; }
+        .info-tags { display: flex; gap: 4px; flex-wrap: wrap; width: 80%; }
+        .button-tag { background-color: #e9ecef; color: #495057; padding: 2px 6px; border-radius: 4px; font-size: 0.75em; white-space: nowrap; width: auto; }
+        .button-tag:hover { background-color: #d1d5db; }
+        .button-delete { background-color: #dc3545; color: white; padding: 4px 8px; font-size: 0.8em; width: auto; }
     </style>
 </head>
 <body>
@@ -136,8 +39,7 @@
         <div class="card">
             <h2>我的链接列表 (点击“复制”或“备注”)</h2>
             <p style="font-size: 0.9em; color: #6c757d; margin-top: -10px;">(新功能：点击卡片 <strong style="color: #007bff;">标题</strong> 可自动填充到下方表单进行修改)</p>
-            <div id="link-list-container">
-                </div>
+            <div id="link-list-container"></div>
         </div>
 
         <div class="card">
@@ -167,118 +69,79 @@
     <script>
         const STORAGE_KEY = 'my-links-storage';
         let links = [];
-        let currentEditIndex = -1; // (v15) 用于跟踪正在编辑的项目
+        let currentEditIndex = -1; 
 
-        // (v15) 复制功能 (升级，可处理不同按钮)
         function copyToClipboard(text, buttonElement, type = 'main') {
             navigator.clipboard.writeText(text).then(function() {
                 var originalText = buttonElement.innerText;
                 var originalBG, originalColor;
-                
-                if (type === 'main') {
-                    originalBG = '#007bff';
-                    originalColor = 'white';
-                } else if (type === 'tag') {
-                    originalBG = '#e9ecef';
-                    originalColor = '#495057';
-                }
-
+                if (type === 'main') { originalBG = '#007bff'; originalColor = 'white'; } 
+                else if (type === 'tag') { originalBG = '#e9ecef'; originalColor = '#495057'; }
                 buttonElement.innerText = '已复制!';
                 buttonElement.style.backgroundColor = '#28a745'; 
                 buttonElement.style.color = 'white';
-                
                 setTimeout(function() {
                     buttonElement.innerText = originalText;
                     buttonElement.style.backgroundColor = originalBG;
                     buttonElement.style.color = originalColor;
                 }, 2000);
-            }).catch(function(err) {
-                alert('复制失败!');
-            });
+            }).catch(function(err) { alert('复制失败!'); });
         }
 
-        // 加载数据
-        function loadLinks() {
-            links = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            renderList();
-        }
+        function loadLinks() { links = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); renderList(); }
+        function saveLinks() { localStorage.setItem(STORAGE_KEY, JSON.stringify(links)); }
 
-        // 保存数据
-        function saveLinks() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
-        }
-
-        // 渲染列表
         function renderList() {
             const container = document.getElementById('link-list-container');
             container.innerHTML = ''; 
-            if (links.length === 0) {
-                container.innerHTML = '<p>暂无条目，请在下方“新增条目”处添加。</p>';
-                return;
-            }
-
+            if (links.length === 0) { container.innerHTML = '<p>暂无条目，请在下方“新增条目”处添加。</p>'; return; }
             links.forEach((item, index) => {
                 const safeContent = JSON.stringify(item.content);
                 const safePreview = item.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                
                 let tagsHtml = '';
                 if (item.note1) tagsHtml += `<button class="button-tag" onclick='copyToClipboard(${JSON.stringify(item.note1)}, this, "tag")'>${item.note1}</button>`;
                 if (item.note2) tagsHtml += `<button class="button-tag" onclick='copyToClipboard(${JSON.stringify(item.note2)}, this, "tag")'>${item.note2}</button>`;
                 if (item.note3) tagsHtml += `<button class="button-tag" onclick='copyToClipboard(${JSON.stringify(item.note3)}, this, "tag")'>${item.note3}</button>`;
                 if (item.note4) tagsHtml += `<button class="button-tag" onclick='copyToClipboard(${JSON.stringify(item.note4)}, this, "tag")'>${item.note4}</button>`;
-
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'link-item';
-                // (!! 核心修改 v15) 
                 itemDiv.innerHTML = `
                     <div class="item-top">
                         <div class="name" title="点击可编辑此条目" onclick="fillFormForEdit(${index})">${item.name}</div>
                         <button class="button-copy" onclick='copyToClipboard(${safeContent}, this, "main")'>复制</button>
                     </div>
-
                     <div class="content-preview">${safePreview}</div>
-
                     <div class="item-bottom">
                         <div class="info-tags">${tagsHtml}</div>
                         <button class="button-delete" onclick="deleteLink(${index})">删除</button> 
-                    </div>
-                `;
+                    </div>`;
                 container.appendChild(itemDiv);
             });
         }
         
-        // (v15) 新功能：点击标题填充表单
         function fillFormForEdit(index) {
-            currentEditIndex = index; // 标记正在编辑的索引
+            currentEditIndex = index; 
             const item = links[index];
-            
             document.getElementById('newName').value = item.name;
             document.getElementById('newContent').value = item.content;
             document.getElementById('newNote1').value = item.note1 || '';
             document.getElementById('newNote2').value = item.note2 || '';
             document.getElementById('newNote3').value = item.note3 || '';
             document.getElementById('newNote4').value = item.note4 || '';
-            
-            // 切换表单标题和按钮
             document.getElementById('form-title').innerText = `正在修改: "${item.name}"`;
             document.getElementById('add-form').querySelector('button[type="submit"]').innerText = '保存修改';
-            document.getElementById('cancel-edit-btn').style.display = 'inline-block'; // 显示“取消”按钮
-            
-            // 滚动到表单位置
+            document.getElementById('cancel-edit-btn').style.display = 'inline-block'; 
             document.getElementById('add-form').scrollIntoView({ behavior: 'smooth' });
         }
         
-        // (v15) 新功能：取消编辑
         document.getElementById('cancel-edit-btn').addEventListener('click', function() {
-            currentEditIndex = -1; // 取消标记
-            document.getElementById('add-form').reset(); // 清空表单
+            currentEditIndex = -1; 
+            document.getElementById('add-form').reset(); 
             document.getElementById('form-title').innerText = '新增条目';
             document.getElementById('add-form').querySelector('button[type="submit"]').innerText = '添加新条目';
-            this.style.display = 'none'; // 隐藏“取消”按钮
+            this.style.display = 'none'; 
         });
 
-
-        // (01) 添加/修改 条目
         document.getElementById('add-form').addEventListener('submit', function(e) {
             e.preventDefault(); 
             const name = document.getElementById('newName').value;
@@ -287,45 +150,25 @@
             const note2 = document.getElementById('newNote2').value;
             const note3 = document.getElementById('newNote3').value;
             const note4 = document.getElementById('newNote4').value;
-            
             if (!name || !content) { alert('“名字”和“内容”不能为空！'); return; }
-
             const newItem = { name, content, note1, note2, note3, note4 };
-
-            if (currentEditIndex > -1) {
-                // (v1Redit) 处于编辑模式：替换旧条目
-                links[currentEditIndex] = newItem;
-                console.log('修改成功:', newItem);
-            } else {
-                // (v15) 处于新增模式：添加到末尾
-                links.push(newItem);
-                console.log('添加成功:', newItem);
-            }
-            
+            if (currentEditIndex > -1) { links[currentEditIndex] = newItem; console.log('修改成功:', newItem); } 
+            else { links.push(newItem); console.log('添加成功:', newItem); }
             saveLinks();
             renderList();
-            document.getElementById('cancel-edit-btn').click(); // (v15) 自动点击“取消”来重置表单
+            document.getElementById('cancel-edit-btn').click(); 
         });
 
-        // (02) 删除条目
         function deleteLink(index) {
-            // (v15) 如果删除的是正在编辑的条目，先取消编辑状态
-            if (index === currentEditIndex) {
-                document.getElementById('cancel-edit-btn').click();
-            }
-            
+            if (index === currentEditIndex) { document.getElementById('cancel-edit-btn').click(); }
             if (confirm(`确定要删除 "${links[index].name}" 吗？`)) {
                 links.splice(index, 1); 
                 saveLinks();
                 renderList();
-                // (v15) 如果删除后影响了编辑索引，重置
-                if (currentEditIndex > index) {
-                    currentEditIndex--; 
-                }
+                if (currentEditIndex > index) { currentEditIndex--; }
             }
         }
 
-        // --- 备份与导入功能 ---
         function backupLinks() {
             if(links.length === 0) { alert("没有内容可备份。"); return; }
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(links, null, 2));
@@ -349,21 +192,22 @@
                             links = importedData;
                             saveLinks();
                             renderList();
-                            document.getElementById('cancel-edit-btn').click(); // (v15) 清空编辑状态
-                            alert("导入成功！");
+                            document.getElementById('cancel-edit-btn').click(); 
+                            alert("导入成功！"); // <-- 添加成功提示
                         }
                     } else { alert("文件格式不正确，不是一个有效的列表。"); }
-                } catch (error) { alert("导入失败，文件内容不是有效的 JSON 格式。"); }
+                } catch (error) { 
+                    console.error("导入错误:", error); // <-- 在控制台输出详细错误
+                    alert("导入失败，文件内容不是有效的 JSON 格式。"); 
+                }
             };
-            reader.readText(file);
+            // (!! v16 核心修正 !!)
+            reader.readAsText(file); // <-- 这里之前是 reader.readText(file)
             event.target.value = null;
         });
 
-        // 页面加载时，自动加载数据
         window.onload = loadLinks;
     </script>
 
 </body>
 </html>
-
-
